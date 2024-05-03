@@ -31,12 +31,12 @@ public class RobotContainer {
                         () -> calculateDriveSpeed(-driverController.getRightX())
                 )
         );
-        intake.setDefaultCommand(IntakeCommands.getSetIntakeStateCommand(IntakeConstants.IntakeState.STOP));
+        intake.setDefaultCommand(IntakeCommands.getSetTargetIntakeStateCommand(IntakeConstants.IntakeState.STOP));
     }
 
     private void bindControllerCommands() {
-        driverController.leftTrigger().whileTrue(IntakeCommands.getSetIntakeStateCommand(IntakeConstants.IntakeState.COLLECTION));
-        driverController.rightBumper().whileTrue(IntakeCommands.getSetIntakeStateCommand(IntakeConstants.IntakeState.EJECTION));
+        driverController.leftTrigger().whileTrue(IntakeCommands.getSetTargetIntakeStateCommand(IntakeConstants.IntakeState.COLLECTION));
+        driverController.rightBumper().whileTrue(IntakeCommands.getSetTargetIntakeStateCommand(IntakeConstants.IntakeState.EJECTION));
     }
 
     public Command getAutonomousCommand() {
