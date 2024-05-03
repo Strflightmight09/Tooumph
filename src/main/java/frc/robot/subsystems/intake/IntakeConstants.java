@@ -16,12 +16,12 @@ public class IntakeConstants {
     private static final int
             COLLECTION_MOTOR_ID = 4,
             ANGLE_MOTOR_ID = 5,
-            ENCODER_ID = 6;
+            ENCODER_ID = 10;
     static final WPI_TalonSRX
             COLLECTION_MOTOR = new WPI_TalonSRX(COLLECTION_MOTOR_ID),
-            ANGLE_MOTOR = new WPI_TalonSRX(5);
+            ANGLE_MOTOR = new WPI_TalonSRX(ANGLE_MOTOR_ID);
     static final CANcoder ENCODER = new CANcoder(ENCODER_ID);
-    static final double VOLTAGE_COMPENSATION_SATURATION = 12;
+    private static final double VOLTAGE_COMPENSATION_SATURATION = 12;
     private static final boolean
             COLLECTION_MOTOR_INVERTED_VALUE = false,
             ANGLE_MOTOR_INVERTED_VALUE = false;

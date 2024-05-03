@@ -22,10 +22,6 @@ public class Intake extends SubsystemBase {
         return INSTANCE;
     }
 
-    private void setCollectionMotorVoltage(double voltage) {
-        collectionMotor.set(Conversions.voltageToCompensatedPower(voltage, IntakeConstants.VOLTAGE_COMPENSATION_SATURATION));
-    }
-
     private double calculateAngleMotorVoltage(TrapezoidProfile.State targetState) {
         final double pidOutput = IntakeConstants.PROFILED_PID_CONTROLLER.calculate(
                 getAngleMotorPosition().getDegrees(),
@@ -52,7 +48,7 @@ public class Intake extends SubsystemBase {
     }
 
     void setCollectionMotorState(double voltage) {
-        setCollectionMotorVoltage(voltage);
+        collectionMotor.setVoltage(voltage);
     }
 
     void stopCollectionMotor() {
