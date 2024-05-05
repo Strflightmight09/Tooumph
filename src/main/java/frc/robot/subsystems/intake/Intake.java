@@ -1,7 +1,7 @@
 package frc.robot.subsystems.intake;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -14,7 +14,7 @@ public class Intake extends SubsystemBase {
     private final WPI_TalonSRX
             collectionMotor = IntakeConstants.COLLECTION_MOTOR,
             angleMotor = IntakeConstants.ANGLE_MOTOR;
-    private final CANcoder encoder = IntakeConstants.ENCODER;
+    private final TalonSRX encoder = IntakeConstants.ENCODER;
     private TrapezoidProfile angleMotorProfile = null;
     private double lastAngleMotorProfileGenerationTime;
 
@@ -35,12 +35,12 @@ public class Intake extends SubsystemBase {
     }
 
     private Rotation2d getAngleMotorPosition() {
-        final double angleMotorPositionDegrees = Conversions.revolutionsToDegrees(encoder.getPosition().getValue());
+        final double angleMotorPositionDegrees = Conversions.revolutionsToDegrees(encoder.getSelectedSensorPosition());
         return Rotation2d.fromDegrees(angleMotorPositionDegrees);
     }
 
     private double getAngleMotorVelocityRotationsPerSecond() {
-        return encoder.getVelocity().getValue();
+        return encoder.getSelectedSensorVelocity();
     }
 
     private double getAngleMotorProfileTime() {

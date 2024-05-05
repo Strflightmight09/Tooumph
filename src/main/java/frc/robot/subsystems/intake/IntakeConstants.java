@@ -1,15 +1,14 @@
 package frc.robot.subsystems.intake;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
-import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import frc.robot.utilities.Conversions;
 
 public class IntakeConstants {
 
@@ -20,7 +19,7 @@ public class IntakeConstants {
     static final WPI_TalonSRX
             COLLECTION_MOTOR = new WPI_TalonSRX(COLLECTION_MOTOR_ID),
             ANGLE_MOTOR = new WPI_TalonSRX(ANGLE_MOTOR_ID);
-    static final CANcoder ENCODER = new CANcoder(ENCODER_ID);
+    static final TalonSRX ENCODER = new TalonSRX(ENCODER_ID);
     private static final double VOLTAGE_COMPENSATION_SATURATION = 12;
     private static final boolean
             COLLECTION_MOTOR_INVERTED_VALUE = false,
@@ -37,9 +36,8 @@ public class IntakeConstants {
             MAX_ANGLE_MOTOR_VELOCITY,
             MAX_ANGLE_MOTOR_ACCELERATION
     );
-    private static final double MAGNET_OFFSET = 0;
-    private static final SensorDirectionValue SENSOR_DIRECTION = SensorDirectionValue.Clockwise_Positive;
-    private static final AbsoluteSensorRangeValue ABSOLUTE_SENSOR_RANGE = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+    private static final boolean ENCODER_PHASE = true;
+    private static final double ENCODER_OFFSET = 0;
 
     private static final double
             P = 1,
@@ -80,13 +78,10 @@ public class IntakeConstants {
     }
 
     private static void configureEncoder() {
-        CANcoderConfiguration config = new CANcoderConfiguration();
-
-        config.MagnetSensor.MagnetOffset = MAGNET_OFFSET;
-        config.MagnetSensor.SensorDirection = SENSOR_DIRECTION;
-        config.MagnetSensor.AbsoluteSensorRange = ABSOLUTE_SENSOR_RANGE;
-
-        ENCODER.getConfigurator().apply(config);
+        ENCODER.configFactoryDefault();
+        ENCODER.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        ENCODER.setSensorPhase(ENCODER_PHASE);
+        ENCODER.setSelectedSensorPosition(Conversions.offsetRead(ENCODER.getSelectedSensorPosition(), ENCODER_OFFSET));
     }
 
     public enum IntakeState {
