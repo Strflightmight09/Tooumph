@@ -36,6 +36,8 @@ public class IntakeConstants {
             MAX_ANGLE_MOTOR_VELOCITY,
             MAX_ANGLE_MOTOR_ACCELERATION
     );
+
+    private static final FeedbackDevice ENCODER_TYPE = FeedbackDevice.CTRE_MagEncoder_Absolute;
     private static final boolean ENCODER_PHASE = true;
     private static final double ENCODER_OFFSET = 0;
 
@@ -79,7 +81,7 @@ public class IntakeConstants {
 
     private static void configureEncoder() {
         ENCODER.configFactoryDefault();
-        ENCODER.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        ENCODER.configSelectedFeedbackSensor(ENCODER_TYPE);
         ENCODER.setSensorPhase(ENCODER_PHASE);
         ENCODER.setSelectedSensorPosition(Conversions.offsetRead(ENCODER.getSelectedSensorPosition(), ENCODER_OFFSET));
     }
